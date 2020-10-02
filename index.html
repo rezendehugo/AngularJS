@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html ng-app="app"  lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Intensivão AnguarJS e Java</title>
+
+        <!--importando o angular, bootstrap -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script> 
+
+        <style>
+
+            .match {
+                
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            .match__team {
+                
+                padding: 15px;
+                position: relative;
+                
+            }
+
+            .match__team:first-child .match__team--bg {
+                border-left: 3px solid red;
+            }
+
+            .match__team:last-child .match__team--bg {
+                border-right: 3px solid blue;
+            }
+            .match__team--bg {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left:0;
+                transform: skew(-25deg);
+                
+                z-index: -1;
+            }
+
+            .match__team--name{
+                text-align: center;
+
+            }
+            .match__team--name:not(:focus){
+            border: none;
+            }
+            
+            .match__score {
+                text-align: center;
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div ng-controller="MainController" >
+            <h1>Partidas</h1>
+            <button ng-click = save() > Salvar </button>
+            <div class="match" >
+                <div class="match__team" >
+                    <div class="match__team--bg" > </div>
+                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusA()" >-</button>
+                    <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamA" />
+                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "addA()" >+</button>
+                </div>
+                <div class="match_score" >
+                    <p>{{match.status}}</p>
+                    <p>{{match.scoreA}} - {{match.scoreB}}</p>
+                    <p ng-if= "!match.done" >
+                        <a ng-click = "finish()">Finalizar</a>
+                    </p>
+                </div>
+                
+                <div class="match__team" >
+                    <div class="match__team--bg" > </div>
+                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusB()" >-</button>
+                    <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamB" />
+                    <button class = "match__team--control"ng-if= "!match.done" ng-click = "addB()" >+</button>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            //conectar o html ao Angular
+            var app = angular.module("app",[]);
+
+            app.controller("MainController", function($scope){
+                //Variáveis estado(dados)
+                
+
+                //JSON
+                $scope.match = {
+                    scoreA: 0,
+                    scoreB: 0,
+                    teamA: "Time A",
+                    teamB: "Time B",
+                    status: "Jogando",
+                    done: false,
+                };
+
+                
+
+                //Funções mudar o estado 
+                $scope.addA = function(){
+                    $scope.match.scoreA++;
+                };
+                $scope.minusA = function(){
+                    if($scope.match.scoreA > 0){
+                        $scope.match.scoreA--;
+                    }
+                };
+                $scope.addB = function(){
+                    $scope.match.scoreB++;
+                };
+                $scope.minusB = function(){
+                    if($scope.match.scoreB > 0){
+                        $scope.match.scoreB--;
+                    }
+                };
+                $scope.finish = function(){
+                    $scope.match.status = 'Finalizada';
+                    $scope.match.done = true;
+                }
+                
+                $scope.save = function(){
+                    //JAVA
+                    alert("TODO enviar dados para o servidor JAVA:\n\n" + 
+                    JSON.stringify($scope.match));
+                }
+            });
+
+        </script>
+    </body>
+</html>
