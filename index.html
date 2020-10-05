@@ -61,87 +61,55 @@
     </head>
 
     <body>
-
-        <div ng-controller="MainController" >
-            <h1>Partidas</h1>
-            <button ng-click = create() > Nova Partida </button>
-            <button ng-click = save() > Salvar </button>
-            <div ng-repeat = "match in matches" class="match" >
-                <div class="match__team" >
-                    <div class="match__team--bg" > </div>
-                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusA(match)" >-</button>
-                    <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamA" />
-                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "addA(match)" >+</button>
-                </div>
-                <div class="match_score" >
-                    <p>{{match.status}}</p>
-                    <p>{{match.scoreA}} - {{match.scoreB}}</p>
-                    <p ng-if= "!match.done" >
-                        <a ng-click = "finish(match)">Finalizar</a>
-                    </p>
-                </div>
-                
-                <div class="match__team" >
-                    <div class="match__team--bg" > </div>
-                    <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusB(match)" >-</button>
-                    <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamB" />
-                    <button class = "match__team--control"ng-if= "!match.done" ng-click = "addB(match)" >+</button>
-                </div>
-            </div>
-        </div>
-
-
+        <cb-match-list></cb-match-list>
         <script>
             //conectar o html ao Angular
             var app = angular.module("app",[]);
 
-            app.controller("MainController", function($scope){
-                //Variáveis estado(dados)
+            app.component("cbMatchList",{
+                templateUrl: "cb-match-list.html",
+                controller: function($scope){
+                    $scope.matches = [];
 
-                //Guardar todas as partidas
-                $scope.matches = [];
+                    $scope.addA = function(match){
+                        match.scoreA++;
+                    };
+                    $scope.minusA = function(match){
+                        if(match.scoreA > 0){
+                        match.scoreA--;
+                        }
+                    };
+                    $scope.addB = function(match){
+                        match.scoreB++;
+                    };
+                    $scope.minusB = function(match){
+                        if(match.scoreB > 0){
+                            match.scoreB--;
+                        }
+                    };
+                    $scope.finish = function(match){
+                        match.status = 'Finalizada';
+                        match.done = true;
+                    };
 
-                //Funções mudam o estado 
-                $scope.addA = function(match){
-                    match.scoreA++;
-                };
-                $scope.minusA = function(match){
-                    if(match.scoreA > 0){
-                       match.scoreA--;
-                    }
-                };
-                $scope.addB = function(match){
-                    match.scoreB++;
-                };
-                $scope.minusB = function(match){
-                    if(match.scoreB > 0){
-                        match.scoreB--;
-                    }
-                };
-                $scope.finish = function(match){
-                    match.status = 'Finalizada';
-                    match.done = true;
-                }
-                
-                $scope.save = function(){
-                    //JAVA
-                    alert("TODO enviar dados para o servidor JAVA:\n\n" + 
-                    JSON.stringify($scope.matches));
-                }
-                $scope.create = function(){
-                    var m  = {
-                    scoreA: 0,
-                    scoreB: 0,
-                    teamA: "Mandante",
-                    teamB: "Visitante",
-                    status: "Jogando",
-                    done: false,
-                };
-                $scope.matches.push(m)
-                }
-                
+                    $scope.save = function(){
+                        //JAVA
+                        alert("TODO enviar dados para o servidor JAVA:\n\n" + 
+                        JSON.stringify($scope.matches));
+                    };
+                    $scope.create = function(){
+                        var m  = {
+                        scoreA: 0,
+                        scoreB: 0,
+                        teamA: "Mandante",
+                        teamB: "Visitante",
+                        status: "Jogando",
+                        done: false,
+                    };
+                    $scope.matches.push(m)
+                    };
+                },
             });
-
         </script>
     </body>
 </html>

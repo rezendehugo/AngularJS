@@ -12,21 +12,21 @@
 
     </head>
     <body>
-        <div ng-controller="MainController" >
-            <h1>{{Contador}} </h1>
-            <button ng-click = add()>Adicionar </button>
-        </div>
-
+        <cb-counter></cb-counter>
         <script>
             //conectar o html ao Angular
             var app = angular.module("app",[]);
 
-            app.controller("MainController", function($scope){
-                $scope.Contador = 0;
-                $scope.add() = function(){
-                    $scope.Contador++;
-                };
+            app.component("cbCounter", {
+                templateUrl:"count.html",
+                controller: function($scope){
+                    $scope.Contador = 0;
+                    $scope.add = function(){
+                        $scope.Contador++;
+                }
+            },
             });
+
         </script>
     </body>
 </html>

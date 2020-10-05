@@ -1,0 +1,25 @@
+<h1>Partidas</h1>
+<button ng-click = create() > Nova Partida </button>
+<button ng-click = save() > Salvar </button>
+<div ng-repeat = "match in matches" class="match" >
+    <div class="match__team" >
+        <div class="match__team--bg" > </div>
+        <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusA(match)" >-</button>
+        <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamA" />
+        <button class = "match__team--control" ng-if= "!match.done" ng-click = "addA(match)" >+</button>
+    </div>
+    <div class="match_score" >
+        <p>{{match.status}}</p>
+        <p>{{match.scoreA}} - {{match.scoreB}}</p>
+        <p ng-if= "!match.done" >
+            <a ng-click = "finish(match)">Finalizar</a>
+        </p>
+    </div>
+    
+    <div class="match__team" >
+        <div class="match__team--bg" > </div>
+        <button class = "match__team--control" ng-if= "!match.done" ng-click = "minusB(match)" >-</button>
+        <input class = "match__team--name" ng-disabled = "match.done" type="text" ng-model = "match.teamB" />
+        <button class = "match__team--control"ng-if= "!match.done" ng-click = "addB(match)" >+</button>
+    </div>
+</div>
