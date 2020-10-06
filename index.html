@@ -68,7 +68,7 @@
 
             app.component("cbMatchList",{
                 templateUrl: "cb-match-list.html",
-                controller: function($scope){
+                controller: function($scope,$http){
                     $scope.matches = [];
 
                     $scope.addA = function(match){
@@ -93,10 +93,12 @@
                     };
 
                     $scope.save = function(){
-                        //JAVA
-                        alert("TODO enviar dados para o servidor JAVA:\n\n" + 
-                        JSON.stringify($scope.matches));
-                    };
+                        //Fazer uma requisição HTTP GET
+                        $http.post('http://localhost:5555',$scope.matches)
+                            .then(function(response){
+                                console.log(response.data);
+                            } , function(error){   } );
+                    };     
                     $scope.create = function(){
                         var m  = {
                         scoreA: 0,
